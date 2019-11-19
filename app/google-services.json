@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "211093333348",
+    "firebase_url": "https://parking-management-syste-d2bff.firebaseio.com",
+    "project_id": "parking-management-syste-d2bff",
+    "storage_bucket": "parking-management-syste-d2bff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211093333348:android:3bc68bd1d1fc37e0550671",
+        "android_client_info": {
+          "package_name": "com.example.moonwaygravity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211093333348-cgek5fv80htavoncef6kbqem93b68r9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.moonwaygravity",
+            "certificate_hash": "f1fec908509af750740ff7fdeb57dd2d2a7ad460"
+          }
+        },
+        {
+          "client_id": "211093333348-v7mpm1k5oqitm3rqe894h95srkqelr6g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWjIaLyBN7gBTo_R5OPXM8mn3qPc5G9hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211093333348-v7mpm1k5oqitm3rqe894h95srkqelr6g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
