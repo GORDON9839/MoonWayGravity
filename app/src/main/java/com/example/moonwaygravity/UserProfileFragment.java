@@ -41,7 +41,7 @@ public class UserProfileFragment extends Fragment {
     TextView balance;
     private RecyclerView vehicleList;
     private FirebaseAuth mAuth;
-    private DatabaseReference vehRef,custRef;
+    private DatabaseReference vehRef, custRef;
     private VehicleListAdapter adapter;
     List<Vehicle> vehicle;
 
@@ -62,6 +62,7 @@ public class UserProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -75,7 +76,7 @@ public class UserProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         btn_topup = view.findViewById(R.id.topup);
-        vehicleList =  (RecyclerView)view.findViewById(R.id.vehicleList);
+        vehicleList = (RecyclerView) view.findViewById(R.id.vehicleList);
         balance = view.findViewById(R.id.balance);
 
         btn_topup.setOnClickListener(new View.OnClickListener() {
@@ -95,11 +96,10 @@ public class UserProfileFragment extends Fragment {
         userProfile(currentUserID);
 
 
-
-
         return view;
     }
-    private void vehicle(final String currentUserID){
+
+    private void vehicle(final String currentUserID) {
         vehicleList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setReverseLayout(true);
@@ -113,12 +113,12 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 vehicle.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Vehicle v = snapshot.getValue(Vehicle.class);
-                    if(v.getCustomerId().equals(currentUserID)){
+                    if (v.getCustomerId().equals(currentUserID)) {
                         vehicle.add(v);
                     }
-                    adapter = new VehicleListAdapter(getActivity(),vehicle);
+                    adapter = new VehicleListAdapter(getActivity(), vehicle);
                     vehicleList.setAdapter(adapter);
 
                 }
@@ -131,15 +131,15 @@ public class UserProfileFragment extends Fragment {
         });
     }
 
-    private void userProfile(final String currentUserID){
+    private void userProfile(final String currentUserID) {
         custRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String custid = snapshot.child("customerId").getValue().toString();
-                    if(custid.equals(currentUserID)){
+                    if (custid.equals(currentUserID)) {
                         Double bal = Double.parseDouble(snapshot.child("accountBalance").getValue().toString());
-                        balance.setText(String.format("RM %.2f",bal));
+                        balance.setText(String.format("RM %.2f", bal));
                     }
                 }
             }
@@ -151,8 +151,6 @@ public class UserProfileFragment extends Fragment {
         });
     }
 
-
-
     @Override
     public void onStop() {
         super.onStop();
@@ -163,6 +161,7 @@ public class UserProfileFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

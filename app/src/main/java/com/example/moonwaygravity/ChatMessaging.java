@@ -1,14 +1,21 @@
 package com.example.moonwaygravity;
 
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,8 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class CustomerMessageActivity extends AppCompatActivity {
-
+public class ChatMessaging extends Fragment {
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
@@ -42,64 +48,66 @@ public class CustomerMessageActivity extends AppCompatActivity {
     List<Message> messages;
 
     RecyclerView recyclerView;
+    private OnFragmentInteractionListener mListener;
 
-    Intent intent;
+    public ChatMessaging() {
+        // Required empty public constructor
+    }
+
+
+    // TODO: Rename and change types and number of parameters
+    public static ChatMessaging newInstance(String param1, String param2) {
+        ChatMessaging fragment = new ChatMessaging();
+
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_message);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
-        recyclerView = findViewById(R.id.recycle_view);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chat_messaging, container, false);
+
+
+        recyclerView = view.findViewById(R.id.recycle_view);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        btn_send = findViewById(R.id.btn_send);
-        text_send = findViewById(R.id.text_send);
+        btn_send = view.findViewById(R.id.btn_send);
+        text_send = view.findViewById(R.id.text_send);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        Bundle bundle = getIntent().getExtras();
-        final String category = bundle.getString("Category");
+
+        final String category = "Chat";
 
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = text_send.getText().toString();
-                if(!msg.equals("")){
-                    sendMessage(firebaseUser.getUid(),"", msg, category, "123" );
-                }else{
-                    Toast.makeText(CustomerMessageActivity.this, "You are not able to send this message", Toast.LENGTH_SHORT).show();
+                if (!msg.equals("")) {
+                    sendMessage(firebaseUser.getUid(), "", msg, category, "123");
+                    text_send.setText(""); // set the text blank after sent
+                } else {
+                    Toast.makeText(getActivity(), "Please enter your enquires", Toast.LENGTH_SHORT).show();
                 }
-                text_send.setText("");
+
             }
         });
-
-        Toast.makeText(CustomerMessageActivity.this, firebaseUser.getUid(), Toast.LENGTH_SHORT).show();
-        readMessage(firebaseUser.getUid(),category);
+        readMessage(firebaseUser.getUid(), category);
+        return view;
     }
 
-    private void sendMessage(String sender,String receiver, String message, String category, String date){
+    private void sendMessage(String sender, String receiver, String message, String category, String date) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
@@ -110,8 +118,9 @@ public class CustomerMessageActivity extends AppCompatActivity {
 
         reference.child("Message").push().setValue(hashMap);
     }
+    // TODO: Rename method, update argument and hook method into UI event
 
-    private void readMessage(final String myid, final String category){
+    private void readMessage(final String myid, final String category) {
         messages = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference("Message");
@@ -119,20 +128,38 @@ public class CustomerMessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 messages.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Message message = snapshot.getValue(Message.class);
-                    if(message.getCategory().equals(category) && message.getReceiver().equals(myid)||
-                            message.getSender().equals(myid) && message.getCategory().equals("Parking")){
+
+                    if (message.getSender().equals(myid) || message.getReceiver().equals(myid)) {
                         messages.add(message);
                     }
-                    messageAdapter = new MessageAdapter(CustomerMessageActivity.this, messages);
+
+                    messageAdapter = new MessageAdapter(getActivity(), messages);
                     recyclerView.setAdapter(messageAdapter);
+
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+    }
+
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+
+        void onFragmentInteraction(Uri uri);
     }
 }

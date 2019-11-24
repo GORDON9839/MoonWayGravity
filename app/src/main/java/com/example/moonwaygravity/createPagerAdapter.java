@@ -3,6 +3,8 @@ package com.example.moonwaygravity;
 
 import android.content.Context;
 
+import com.example.moonwaygravity.Model.User;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -24,7 +26,7 @@ public class createPagerAdapter extends FragmentPagerAdapter {
         if(position == 0){
             return new UserProfileFragment();
         }else if (position == 1) {
-            return new customerSupportFragment();
+            return new ChatMessaging();
         }else{
             return new ParkingInformationFragment();
         }
