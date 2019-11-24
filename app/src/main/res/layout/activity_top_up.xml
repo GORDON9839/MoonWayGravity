@@ -53,7 +53,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?materialButtonOutlinedStyle"
-                android:id="@+id/button_one"
+                android:id="@+id/button20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20.00"
@@ -61,7 +61,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?materialButtonOutlinedStyle"
-                android:id="@+id/button_center"
+                android:id="@+id/button50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50.00"
@@ -69,7 +69,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="?materialButtonOutlinedStyle"
-                android:id="@+id/button_three"
+                android:id="@+id/button100"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100.00"

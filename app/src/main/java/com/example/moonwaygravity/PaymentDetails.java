@@ -13,26 +13,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class PaymentDetails extends AppCompatActivity {
 
-    TextView txtId, txtAmount, txtStatus;
+    TextView txtId, txtAmount, txtStatus,txtCustomer;
+    String currentUserid;
+
+    DatabaseReference transRef,custRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_details);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Welcome to Car Park System");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         txtAmount = (TextView)findViewById(R.id.txtAmount);
         txtId = (TextView)findViewById(R.id.txtId);
         txtStatus = (TextView)findViewById(R.id.txtStatus);
+        txtCustomer = (TextView)findViewById(R.id.txtCustomer);
+
+        currentUserid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //get intent
         Intent intent = getIntent();
@@ -69,10 +79,43 @@ public class PaymentDetails extends AppCompatActivity {
             txtId.setText(response.getString("id"));
             txtStatus.setText(response.getString("state"));
             txtAmount.setText("MYR" + paymentAmount);
+            txtCustomer.setText(currentUserid);
+
+            transRef = FirebaseDatabase.getInstance().getReference();
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("paymentId",response.getString("id"));
+            hashMap.put("status", response.getString("state"));
+            hashMap.put("message", paymentAmount);
+            hashMap.put("transactionType", "Reload Credit");
+            hashMap.put("customerId", currentUserid);
+
+            transRef.child("Transaction").push().setValue(hashMap);
+
+            custRef = FirebaseDatabase.getInstance().getReference().child("Customer");
+            custRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot data:dataSnapshot.getChildren()){
+                        if(data.child("customerId").getValue().equals(currentUserid)){
+                            int balance = Integer.parseInt(data.child("balance").getValue().toString());
+                            updateBalance(balance);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
 
         }catch(JSONException e){
             e.printStackTrace();
         }
+    }
+    public void updateBalance(int bal){
+        custRef.child(currentUserid).child("balance").setValue(bal);
     }
 
 
