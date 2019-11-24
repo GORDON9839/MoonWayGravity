@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.moonwaygravity.PaymentDetails"
-    android:background="@color/grey">
+    android:background="@color/grey"
+    android:id="@+id/receipt">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -198,6 +199,43 @@
 
 
     </LinearLayout>
+
+
+
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save to My phone"
+                android:layout_marginEnd="15dp"
+                android:textSize="18dp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                android:layout_centerInParent="true"
+                android:layout_above="@id/btnback"
+                android:layout_marginBottom="20dp"
+
+
+                />
+            <com.google.android.material.button.MaterialButton
+                style="?materialButtonOutlinedStyle"
+                android:id="@+id/btnback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to home page"
+                android:textSize="18dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                />
+
+
 
 
 

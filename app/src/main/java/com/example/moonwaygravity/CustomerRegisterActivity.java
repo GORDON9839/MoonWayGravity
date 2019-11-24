@@ -44,7 +44,7 @@ public class CustomerRegisterActivity extends AppCompatActivity {
 
     String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
     String contactRegex = "^(01)[0-46-9]*[0-9]{7,8}$";
-    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,10}$";
+    String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
 
     @Override
     protected void onStart() {
@@ -173,6 +173,7 @@ public class CustomerRegisterActivity extends AppCompatActivity {
                                                     finish();
                                                 }else{
                                                     Toast.makeText(CustomerRegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                                    dialog.dismiss();
                                                 }
 
                                             }
