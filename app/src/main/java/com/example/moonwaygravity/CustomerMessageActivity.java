@@ -121,8 +121,8 @@ public class CustomerMessageActivity extends AppCompatActivity {
                 messages.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Message message = snapshot.getValue(Message.class);
-                    if(message.getCategory().equals(category) && message.getReceiver().equals(myid)||
-                            message.getSender().equals(myid) && message.getCategory().equals("Parking")){
+                    if(message.getReceiver().equals(myid)||
+                            message.getSender().equals(myid)){
                         messages.add(message);
                     }
                     messageAdapter = new MessageAdapter(CustomerMessageActivity.this, messages);
