@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:background="@color/white">
+
+    <LinearLayout android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout1">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vehicle License Plate Number"
+                android:textSize="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="22.7dp"
+                />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking Location"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entry Date"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entry Time"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Parking Fee"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/licensePlate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vehicle License Plate Number"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="?textAppearanceBody2"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+            <TextView
+                android:id="@+id/parkinglocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking Location"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="?textAppearanceBody2"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/entrydate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entry Date"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="?textAppearanceBody2"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/entryTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entry Time"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="?textAppearanceBody2"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/parkingfee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Parking Fee"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="?textAppearanceBody2"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/payParkingFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay Parking Fees Now"
+        android:textSize="18dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:layout_below="@id/layout1"
+        android:layout_alignParentRight="true"
+        />
+
+</RelativeLayout>
