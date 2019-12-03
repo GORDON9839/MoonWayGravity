@@ -26,4 +26,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_plate_number">Enter Plate Number</string>
     <string name="your_vehicle">Your Vehicle :</string>
+    <string name="customer_portal">Customer Portal</string>
 </resources>

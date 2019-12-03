@@ -38,11 +38,7 @@
                 android:layout_marginStart="25dp"
                 android:text="Customer Support"/>
 
-            <ImageButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:id="@+id/btn_call"
-                android:background="@drawable/call_20" />
+
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

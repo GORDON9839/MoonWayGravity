@@ -23,6 +23,7 @@
         <activity android:name=".CustomerRegisterActivity" />
         <activity android:name=".CustomerMessageActivity" />
         <activity android:name=".TopUpActivity" />
+        <activity android:name=".PaymentDetails" />
         <activity
             android:name=".splashscreen"
             android:exported="true"

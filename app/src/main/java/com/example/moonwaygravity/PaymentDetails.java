@@ -97,7 +97,7 @@ public class PaymentDetails extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot data:dataSnapshot.getChildren()){
                         if(data.child("customerId").getValue().equals(currentUserid)){
-                            int balance = Integer.parseInt(data.child("balance").getValue().toString());
+                            int balance = Integer.parseInt(data.child("accountBalance").getValue().toString());
                             updateBalance(balance);
                         }
                     }
@@ -115,7 +115,7 @@ public class PaymentDetails extends AppCompatActivity {
         }
     }
     public void updateBalance(int bal){
-        custRef.child(currentUserid).child("balance").setValue(bal);
+        custRef.child(currentUserid).child("accountBalance").setValue(String.valueOf(bal));
     }
 
 

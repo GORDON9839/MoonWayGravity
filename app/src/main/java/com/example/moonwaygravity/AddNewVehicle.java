@@ -82,15 +82,16 @@ public class AddNewVehicle extends AppCompatActivity {
                 final String plateNumber = vehicleLicensePlate.getText().toString();
                 final String ownerName = owner.getText().toString();
                 if (!plateNumber.equals("")) { //
+                    final Vehicle vehicle = new Vehicle(plateNumber, firebaseUser.getUid(), ownerName);
                     if (isLicensePlate(plateNumber)) { //if match the license plate pattern
-                        saveLicensePlate(plateNumber, firebaseUser.getUid(), ownerName);
+                        saveLicensePlate(vehicle);
                     } else { // if not match the pattern
                         AlertDialog.Builder builder = new AlertDialog.Builder(AddNewVehicle.this);
                         builder.setTitle("License Plate Number Pattern ");
                         builder.setMessage("This seems not a Malaysia Vehicle License Plate Number. \n **if you wish to continue press OK");
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                saveLicensePlate(plateNumber, firebaseUser.getUid(), ownerName);
+                                saveLicensePlate(vehicle);
                                 dialog.dismiss();
                             }
                         });
@@ -124,36 +125,32 @@ public class AddNewVehicle extends AppCompatActivity {
         });
     }
 
-    private void saveLicensePlate(String plate, String customerid, String owner ) {
+    private void saveLicensePlate(Vehicle vehicle ) {
+        final Vehicle v=vehicle;
         DatabaseReference vehicleRef = database.getReference("Vehicle");
-        Vehicle vehicle = new Vehicle(plate, customerid, owner);
-        vehicleRef.push().setValue(vehicle, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    Toast.makeText(AddNewVehicle.this, "Error Occured, Please try again" + databaseError.getMessage(), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast toast = new Toast(AddNewVehicle.this);
-                    TextView textView = new TextView(AddNewVehicle.this);
-                    textView.setText("Success");
-                    textView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.success_60, 0, 0);
-                    toast.setView(textView);
-                    toast.show();
-                    System.out.println("Data saved successfully.");
-                }
-            }
-        });
-
-    }
-    private void checkLicensePlateExistence(String plate){
-        DatabaseReference vehicleRef = database.getReference("Vehicle");
-        vehicleRef.orderByChild("vehicleLicensePlateNumber").equalTo(plate).addListenerForSingleValueEvent(new ValueEventListener() {
+        vehicleRef.orderByChild("vehicleLicensePlateNumber").equalTo(vehicle.getVehicleLicensePlateNumber()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    Toast.makeText(AddNewVehicle.this,"exist",Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddNewVehicle.this,"Record Exist, cannot added the same vehicle",Toast.LENGTH_LONG).show();
                 }else{
-
+                    DatabaseReference vehicleRef = database.getReference("Vehicle");
+                    vehicleRef.push().setValue(v, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            if (databaseError != null) {
+                                Toast.makeText(AddNewVehicle.this, "Error Occured, Please try again" + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast toast = new Toast(AddNewVehicle.this);
+                                TextView textView = new TextView(AddNewVehicle.this);
+                                textView.setText("Success");
+                                textView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.success_60, 0, 0);
+                                toast.setView(textView);
+                                toast.show();
+                                finish();
+                            }
+                        }
+                    });
                 }
             }
 
@@ -162,6 +159,14 @@ public class AddNewVehicle extends AppCompatActivity {
 
             }
         });
+
+
+
+
+    }
+    private void checkLicensePlateExistence(String plate){
+        DatabaseReference vehicleRef = database.getReference("Vehicle");
+
 
     }
     private boolean isLicensePlate(String plate) { // to match whether the license plate match
