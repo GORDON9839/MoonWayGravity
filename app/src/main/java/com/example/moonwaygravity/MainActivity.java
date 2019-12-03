@@ -27,38 +27,21 @@ public class MainActivity extends AppCompatActivity {
     TextView logout;
     Toolbar toolbar;
     AppCompatImageView logo;
-
     Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setOverflowIcon((ContextCompat.getDrawable(this, R.drawable.menu)));
-
-
-
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         logo = findViewById(R.id.logo);
-
-
-
         adapter = new createPagerAdapter
                 (this,getSupportFragmentManager());
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
-
         tabLayout.setupWithViewPager(viewPager);
-
-
-
-
-
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
