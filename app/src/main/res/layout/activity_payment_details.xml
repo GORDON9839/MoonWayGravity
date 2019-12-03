@@ -4,200 +4,319 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.moonwaygravity.PaymentDetails"
-    android:background="@color/grey">
-
-    <LinearLayout
+    tools:context="com.example.moonwaygravity.parkingFeesPaymentDetails"
+    android:background="@color/grey"
+    >
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/header"
-        android:background="@color/black">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:orientation="vertical"
-        android:background="@color/black"
-
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?textAppearanceBody2"
-            android:text="Thank You,"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="24dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?textAppearanceBody2"
-            android:text="Here is your receipt"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/white"
-            android:textStyle="italic"
-            android:textSize="16dp"
-            />
-    </LinearLayout>
-
-        <RelativeLayout
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:orientation="vertical"
             >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/receipt">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/header"
+                    android:background="@color/black">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:orientation="vertical"
+                        android:background="@color/black"
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?textAppearanceBody2"
+                            android:text="Thank You,"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="24dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?textAppearanceBody2"
+                            android:text="Here is your receipt"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/white"
+                            android:textStyle="italic"
+                            android:textSize="16dp"
+                            />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        >
 
 
 
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/logo_black"
-            android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+                        <ImageView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/logo_black"
+                            android:layout_alignParentRight="true"/>
+                    </RelativeLayout>
 
 
-    </LinearLayout>
+                </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:id="@+id/paymentid"
-        android:layout_below="@id/header"
-        >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:id="@+id/paymentid"
+                    android:layout_below="@id/header"
+                    >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Payment ID"
-            android:textSize="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Payment ID"
+                        android:textSize="15dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginLeft="17dp"/>
 
-        <TextView
-            android:id="@+id/txtId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Payment Id"
-            android:layout_marginLeft="15dp"
-            android:textSize="20dp"
-            android:textAppearance="?textAppearanceBody2"
-            android:layout_marginBottom="15dp"/>
-
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:id="@+id/customerId"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/paymentid"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Customer ID"
-            android:textSize="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"/>
-
-        <TextView
-            android:id="@+id/txtCustomer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Customer ID"
-            android:textAppearance="?textAppearanceBody2"
-            android:layout_marginLeft="15dp"
-            android:textSize="20dp"
-            android:layout_marginBottom="15dp"/>
+                    <TextView
+                        android:id="@+id/txtId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Payment Id"
+                        android:layout_marginLeft="15dp"
+                        android:textSize="15dp"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:layout_marginBottom="15dp"/>
 
 
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:id="@+id/amount"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/customerId"
-        >
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:id="@+id/customerId"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/paymentid"
+                    >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Amount"
-            android:textSize="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Customer ID"
+                        android:textSize="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"/>
 
-        <TextView
-            android:id="@+id/txtAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Payment Amount"
-            android:layout_marginLeft="15dp"
-            android:textAppearance="?textAppearanceBody2"
-            android:textSize="20dp"
-            android:layout_marginBottom="15dp"
-            />
-
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:id="@+id/status"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/amount"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Status"
-            android:textSize="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"/>
-
-        <TextView
-            android:id="@+id/txtStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Payment Status"
-            android:layout_marginLeft="15dp"
-            android:textAppearance="?textAppearanceBody2"
-            android:textSize="20dp"
-            android:layout_marginBottom="15dp"
-            />
+                    <TextView
+                        android:id="@+id/txtCustomer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Customer ID"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:layout_marginLeft="15dp"
+                        android:textSize="20dp"
+                        android:layout_marginBottom="15dp"/>
 
 
 
-    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:id="@+id/amount"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/customerId"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Amount"
+                        android:textSize="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"/>
+
+                    <TextView
+                        android:id="@+id/txtAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Payment Amount"
+                        android:layout_marginLeft="15dp"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textSize="20dp"
+                        android:layout_marginBottom="15dp"
+                        />
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:id="@+id/status"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/amount"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Status"
+                        android:textSize="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"/>
+
+                    <TextView
+                        android:id="@+id/txtStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Payment Status"
+                        android:layout_marginLeft="15dp"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textSize="20dp"
+                        android:layout_marginBottom="15dp"
+                        />
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:id="@+id/date"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/status"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Date"
+                        android:textSize="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"/>
+
+                    <TextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Payment Date"
+                        android:layout_marginLeft="15dp"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textSize="20dp"
+                        android:layout_marginBottom="15dp"
+                        />
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:id="@+id/time"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/date"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Time"
+                        android:textSize="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"/>
+
+                    <TextView
+                        android:id="@+id/txttime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Payment Time"
+                        android:layout_marginLeft="15dp"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textSize="20dp"
+                        android:layout_marginBottom="15dp"
+                        />
+
+
+
+                </LinearLayout>
+            </RelativeLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save to My phone"
+                android:textSize="18dp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                android:layout_gravity="center_horizontal"
+
+
+
+                />
+            <com.google.android.material.button.MaterialButton
+                style="?materialButtonOutlinedStyle"
+                android:id="@+id/btnback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to home page"
+                android:textSize="18dp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                android:layout_gravity="center_horizontal"
+
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+
+
+
+
+
 
 
 

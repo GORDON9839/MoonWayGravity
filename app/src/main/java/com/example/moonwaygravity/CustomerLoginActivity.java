@@ -17,7 +17,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class CustomerLoginActivity extends AppCompatActivity {
 
@@ -28,6 +32,7 @@ public class CustomerLoginActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
+    String currentUserid;
     @Override
     protected void onStart() {
         super.onStart();
@@ -76,11 +81,32 @@ public class CustomerLoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         if(auth.getCurrentUser().isEmailVerified()){
-                                            Toast.makeText(CustomerLoginActivity.this, "WELCOME to join MoonWayGravity ", Toast.LENGTH_LONG).show();
-                                            dialog.dismiss();
-                                            Intent intent = new Intent(CustomerLoginActivity.this, MainActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
+                                            reference = FirebaseDatabase.getInstance().getReference("Customer");
+                                            currentUserid = auth.getCurrentUser().getUid();
+
+                                            reference.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    for(DataSnapshot data:dataSnapshot.getChildren()){
+                                                        if(data.getKey().equals(currentUserid)){
+                                                            Toast.makeText(CustomerLoginActivity.this, "WELCOME to join MoonWayGravity ", Toast.LENGTH_LONG).show();
+                                                            dialog.dismiss();
+                                                            Intent intent = new Intent(CustomerLoginActivity.this, MainActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+
+                                                        }else{
+                                                            Toast.makeText(CustomerLoginActivity.this, "You are not a customer.... ", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+
 
                                         }else{
                                             auth.signOut();

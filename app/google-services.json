@@ -3,7 +3,7 @@
     "project_number": "211093333348",
     "firebase_url": "https://parking-management-syste-d2bff.firebaseio.com",
     "project_id": "parking-management-syste-d2bff",
-    "storage_bucket": "parking-management-syste-d2bff.appspot.com"
+    "storage_bucket": "gs://parking-management-syste-d2bff.appspot.com/"
   },
   "client": [
     {

@@ -78,7 +78,6 @@ public class TopUpActivity extends AppCompatActivity {
                 if(isChecked){
                     String amount = tb.getText().toString();
                     edtAmount.setText(tb.getText().toString());
-                    Log.d("hi",tb.getText().toString());
                 }
             }
         });

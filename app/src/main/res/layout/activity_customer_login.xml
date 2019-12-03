@@ -129,6 +129,7 @@
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toEndOf="@+id/login"
                 app:layout_constraintTop_toTopOf="@+id/login" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
