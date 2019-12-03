@@ -3,9 +3,24 @@ package com.example.moonwaygravity.Model;
 public class Vehicle {
     public String vehicleLicensePlateNumber;
     public String customerId;
+    public String name;
 
     public Vehicle(){
 
+    }
+
+    public Vehicle(String vehicleLicensePlateNumber, String customerId, String name) {
+        this.vehicleLicensePlateNumber = vehicleLicensePlateNumber;
+        this.customerId = customerId;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Vehicle(String vehicleLicensePlateNumber) {

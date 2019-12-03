@@ -31,9 +31,6 @@ public class CustomerLoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //check if user is not null
@@ -52,10 +49,7 @@ public class CustomerLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_login);
-
-
         auth = FirebaseAuth.getInstance();
-
         email = findViewById(R.id.emailhint);
         password = findViewById(R.id.passwordhint);
         btn_login = findViewById(R.id.login);
@@ -89,34 +83,10 @@ public class CustomerLoginActivity extends AppCompatActivity {
                                             startActivity(intent);
 
                                         }else{
+                                            auth.signOut();
                                             Toast.makeText(CustomerLoginActivity.this, "Please verified your email address...", Toast.LENGTH_LONG).show();
+                                            dialog.dismiss();
                                         }
-//                                        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//                                        reference = FirebaseDatabase.getInstance().getReference("User").child(firebaseUser.getUid());
-//
-//
-//                                        reference.addValueEventListener(new ValueEventListener() {
-//                                                    @Override
-//                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                                        User c = dataSnapshot.getValue(User.class);
-//                                                        if (c != null) {
-//                                                    if (c.getRole().equals("Customer")) {
-//                                                        Intent intent = new Intent(CustomerLoginActivity.this, MainActivity.class);
-//                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                                        startActivity(intent);
-//                                                        Toast.makeText(CustomerLoginActivity.this, "WELCOME, " + c.getName().toUpperCase(), Toast.LENGTH_LONG).show();
-//                                                        finish();
-//                                                    }else{
-//                                                        Toast.makeText(CustomerLoginActivity.this, "You are not one of the customer!", Toast.LENGTH_SHORT).show();
-//                                                    }
-//                                                }
-//                                            }
-//
-//                                            @Override
-//                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                                System.out.println("The read failed: " + databaseError.getCode());
-//                                            }
-//                                        });
                                     } else {
                                         Toast.makeText(CustomerLoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();

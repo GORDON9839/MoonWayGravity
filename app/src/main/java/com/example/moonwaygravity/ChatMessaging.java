@@ -45,15 +45,9 @@ import java.util.List;
 
 
 public class ChatMessaging extends Fragment {
-
-
-    FirebaseUser firebaseUser;
-    DatabaseReference reference;
-
+    private FirebaseUser firebaseUser;
     ImageButton btn_send, btn_call;
     EditText text_send;
-    Context context;
-
     MessageAdapter messageAdapter;
     List<Message> messages;
 
@@ -67,9 +61,7 @@ public class ChatMessaging extends Fragment {
 
     Resources res;
     List<Chatroom> chatrooms = new ArrayList();
-
-    // TODO: Rename and change types and number of parameters
-    public static ChatMessaging newInstance(String param1, String param2) {
+    public static ChatMessaging newInstance() {
         ChatMessaging fragment = new ChatMessaging();
 
         return fragment;
@@ -92,7 +84,7 @@ public class ChatMessaging extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        btn_call = view.findViewById(R.id.btn_call);
+
         btn_send = view.findViewById(R.id.btn_send);
         text_send = view.findViewById(R.id.text_send);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -105,16 +97,14 @@ public class ChatMessaging extends Fragment {
                     Boolean isActive = false;
                     Date date = new Date();
                     if (chatrooms.size() != 0) { //check the chatroom is retrieved
-
                         for (Chatroom croom : chatrooms) {
-                            if (croom.getStatus() == res.getString(R.string.activeState)) { // if the status is equal to active then send message
+                            if (croom.getStatus().equals(res.getString(R.string.activeState))) { // if the status is equal to active then send message
                                 isActive = true;
                                 sendMessage(croom.getId(), croom.getCustomerid(), croom.getStaffid(), msg, date);
                                 readActiveMessage();
                                 break;
                             }
                         }
-
                     }
                     if (isActive == false) { // if no any active chatroom find open a new one
                         String newChatroomid = createChatroom(firebaseUser.getUid(), "", res.getString(R.string.activeState));
@@ -127,8 +117,6 @@ public class ChatMessaging extends Fragment {
                 }
             }
         });
-
-
         return view;
     }
 
@@ -168,7 +156,6 @@ public class ChatMessaging extends Fragment {
             }
         });
     }
-
     private void readActiveMessage() {
 
         messages = new ArrayList<>();
@@ -179,14 +166,14 @@ public class ChatMessaging extends Fragment {
                     messageRef.orderByChild("chatroomid").equalTo(croom.getId()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                             messages.clear();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 Message message = snapshot.getValue(Message.class);
                                 messages.add(message);
-                                messageAdapter = new MessageAdapter(getActivity(), messages);
-                                recyclerView.setAdapter(messageAdapter);
+
                             }
+                            messageAdapter = new MessageAdapter(getActivity(), messages);
+                            recyclerView.setAdapter(messageAdapter);
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -213,8 +200,6 @@ public class ChatMessaging extends Fragment {
         chatroomRef.child(chatroomid).setValue(chatroom); // push to the chatroom node
         return chatroomid;
     }
-
-
     private void sendMessage(String chatroomid, String sender, String receiver, String message, Date date) { // push to firebase for message
         DatabaseReference messageRef = database.getReference("Message");
         Message msg = new Message();
@@ -225,7 +210,6 @@ public class ChatMessaging extends Fragment {
         msg.setMessage(message);
         messageRef.push().setValue(msg);
     }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onStop() {
         super.onStop();
