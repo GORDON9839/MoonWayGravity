@@ -42,19 +42,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class PaymentDetails extends AppCompatActivity {
+public class parkingFeesPaymentDetails extends AppCompatActivity {
 
     TextView txtId, txtAmount, txtStatus,txtCustomer,txtDate,txtTime;
     Button btnSave,btnBack;
     String currentUserid;
 
-    DatabaseReference transRef,custRef;
+    DatabaseReference transRef,entryRef,exitRef;
     RelativeLayout receipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment_details);
+        setContentView(R.layout.activity_parking_fees_payment_details);
 
 
         txtAmount = (TextView) findViewById(R.id.txtAmount);
@@ -75,8 +75,7 @@ public class PaymentDetails extends AppCompatActivity {
 
         try {
             JSONObject jsonObject = new JSONObject(intent.getStringExtra("PaymentDetails"));
-            Toast.makeText(this, jsonObject.toString(), Toast.LENGTH_SHORT).show();
-            showDetails(jsonObject.getJSONObject("response"), intent.getStringExtra("PaymentAmount"));
+            showDetails(jsonObject.getJSONObject("response"), intent.getStringExtra("PaymentAmount"),intent.getStringExtra("vehicleLicensePlateNumber"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -84,10 +83,10 @@ public class PaymentDetails extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File file = saveBitMap(PaymentDetails.this, receipt);    //which view you want to pass that view as parameter
+                File file = saveBitMap(parkingFeesPaymentDetails.this, receipt);    //which view you want to pass that view as parameter
                 if (file != null) {
-                    Toast.makeText(PaymentDetails.this,"Receipt has been saved to the gallery!",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(PaymentDetails.this,MainActivity.class);
+                    Toast.makeText(parkingFeesPaymentDetails.this,"Receipt has been saved to the gallery!",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(parkingFeesPaymentDetails.this,MainActivity.class);
                     startActivity(intent);
                 } else {
                     Log.i("TAG", "Oops! Image could not be saved.");
@@ -98,7 +97,7 @@ public class PaymentDetails extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PaymentDetails.this,MainActivity.class);
+                Intent intent = new Intent(parkingFeesPaymentDetails.this,MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -117,13 +116,13 @@ public class PaymentDetails extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(PaymentDetails.this,CustomerLoginActivity.class));
+                startActivity(new Intent(parkingFeesPaymentDetails.this,CustomerLoginActivity.class));
                 return true;
         }
         return false;
     }
 
-    private void showDetails(JSONObject response, final String paymentAmount){
+    private void showDetails(JSONObject response, final String paymentAmount, final String vehicleLicensePlate){
         try{
             txtId.setText(response.getString("id"));
             txtStatus.setText(response.getString("state"));
@@ -135,45 +134,65 @@ public class PaymentDetails extends AppCompatActivity {
 
             txtDate.setText(sdfDate.format(date));
             txtTime.setText(sdfTime.format(date));
+            txtCustomer.setText(vehicleLicensePlate);
+
 
 
             transRef = FirebaseDatabase.getInstance().getReference();
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("paymentId",response.getString("id"));
             hashMap.put("status", response.getString("state"));
-            hashMap.put("message", paymentAmount);
-            hashMap.put("transactionType", "Reload Credit");
-            hashMap.put("customerId", currentUserid);
+            hashMap.put("amount", paymentAmount);
+            hashMap.put("transactionType", "Pay Parking Fees");
+            hashMap.put("transactionDate", sdfDate.format(date));
+            hashMap.put("transactionTime", sdfTime.format(date));
 
-            transRef.child("Transaction").push().setValue(hashMap);
+            transRef.child("Transaction").child(response.getString("id")).setValue(hashMap);
+            String transactionID = response.getString("id");
 
-            custRef = FirebaseDatabase.getInstance().getReference().child("Customer").child(currentUserid);
-            custRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            entryRef = FirebaseDatabase.getInstance().getReference().child("EntryRecords");
+
+            entryRef.orderByChild("vehicleLicensePlateNumber").equalTo(vehicleLicensePlate).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if(snapshot.child("status").getValue().equals("Pending")){
+                            String key = snapshot.getKey();
+                            entryRef.child(key).child("status").setValue("Paid");
+                            entryRef.child(key).child("transID").setValue(transactionID);
 
-                        txtCustomer.setText(dataSnapshot.child("name").getValue().toString());
-                        int balance = Integer.parseInt(dataSnapshot.child("accountBalance").getValue().toString());
-                        double newBalance = balance + Double.parseDouble(paymentAmount);
-                        Log.d("hi",paymentAmount);
-                        custRef.child("accountBalance").setValue(newBalance);
-
+//                            uploadExitRecord(key,vehicleLicensePlate,paymentAmount,transactionID);
+                            return;
                         }
-
-
+                    }
+                }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
-
+            //save payment
+            //save exit record
+            //save transacto
 
 
         }catch(JSONException e){
             e.printStackTrace();
         }
     }
+//    public void uploadExitRecord(String entryID,String vehicleLicensePlate,String amount,String transID){
+//        exitRef = FirebaseDatabase.getInstance().getReference();
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("exitDate", "-");
+//        hashMap.put("exitTime", "-");
+//        hashMap.put("fees", amount);
+//        hashMap.put("vehicleLicensePlateNumber", vehicleLicensePlate);
+//        hashMap.put("entryId", entryID);
+//        hashMap.put("transactionId", transID);
+//
+//        exitRef.child("ExitRecords").push().setValue(hashMap);
+//    }
     private File saveBitMap(Context context, View drawView){
         File pictureFileDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Handcare");
         if (!pictureFileDir.exists()) {

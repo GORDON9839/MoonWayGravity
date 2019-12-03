@@ -13,16 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".CustomerLoginActivity"/>
-        <activity android:name=".CustomerRegisterActivity"/>
-        <activity android:name=".CustomerMessageActivity"/>
-        <activity android:name=".TopUpActivity"/>
-        <activity android:name=".PaymentDetails"/>
+        <activity android:name=".parkingFeesPaymentDetails"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".CustomerLoginActivity" />
+        <activity android:name=".CustomerRegisterActivity" />
+        <activity android:name=".CustomerMessageActivity" />
+        <activity android:name=".TopUpActivity" />
+        <activity android:name=".PaymentDetails" />
         <activity
             android:name=".splashscreen"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

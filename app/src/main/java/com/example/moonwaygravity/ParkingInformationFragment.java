@@ -3,6 +3,7 @@ package com.example.moonwaygravity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -74,6 +76,8 @@ public class ParkingInformationFragment extends Fragment {
     private RecyclerView entryRecycler;
     private EntryRecordListAdapter entryAdapter;
     List<EntryRecords> entryRec;
+    String vehicleLicensePlate="";
+    ProgressDialog dialog;
 
 
     public ParkingInformationFragment() {
@@ -93,6 +97,10 @@ public class ParkingInformationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_parking_information, container, false);
         pay = view.findViewById(R.id.payParkingFee);
         entryRecycler = view.findViewById(R.id.entryRecycler);
+
+        dialog = new ProgressDialog(getActivity(),ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+        dialog.setTitle("Processing");
+        dialog.setMessage("Please wait...");
 
         licensePlate = new ArrayList<>();
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -152,15 +160,31 @@ public class ParkingInformationFragment extends Fragment {
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                             EntryRecords entryRecords = snapshot.getValue(EntryRecords.class);
-                            if (vh.equals(entryRecords.getVehicleLicensePlateNumber())) {
-
-
-                                count++;
+                            if (vh.equals(entryRecords.getVehicleLicensePlateNumber()) && !entryRecords.getStatus().equals("Exited")) {
                                 entryRec.add(entryRecords);
-                                Toast.makeText(getActivity(), String.valueOf(count), Toast.LENGTH_LONG).show();
                                 //add to entry adapter
 
                             }
+                            entryAdapter = new EntryRecordListAdapter(getActivity(), entryRec);
+                            entryRecycler.setAdapter(entryAdapter);
+
+                            entryAdapter.onBind = (viewHolder, position, ent) -> {
+                                viewHolder.payParking.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Log.d("hi", "startButton");
+                                        if(ent.getStatus().equals("Pending")){
+                                            dialog.show();
+                                            calculateFees(ent.getDate(), ent.getTime(),ent.getVehicleLicensePlateNumber());
+                                        }else if(ent.getStatus().equals("Paid")){
+                                            Toast.makeText(getActivity(),"The parking fees has been paid...",Toast.LENGTH_LONG).show();
+                                        }
+
+
+                                    }
+
+                                });
+                            };
 
 
 
@@ -168,20 +192,7 @@ public class ParkingInformationFragment extends Fragment {
 
                     }
 //                    Toast.makeText(getActivity(), String.valueOf(entryRec.size()), Toast.LENGTH_LONG).show();
-                    entryAdapter = new EntryRecordListAdapter(getActivity(), entryRec);
-                    entryRecycler.setAdapter(entryAdapter);
 
-                    entryAdapter.onBind = (viewHolder, position, ent) -> {
-                        viewHolder.payParking.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Log.d("hi", "startButton");
-                                calculateFees(ent.getDate(), ent.getTime(),ent.getVehicleLicensePlateNumber());
-
-                            }
-
-                        });
-                    };
 
 
 
@@ -241,14 +252,14 @@ public class ParkingInformationFragment extends Fragment {
                         fees = (double) firstHourRate;
                     }
 
-
+                    dialog.dismiss();
                     final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
                     String parkingFee = String.format("%.2f", fees);
                     builder.setMessage("Your Parking Fees for " + licensePlateNumber + " is RM" + parkingFee + "\n Do you want to continue to pay the parking fee?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    processPayment(fees);
+                                    processPayment(fees,licensePlateNumber);
 
                                 }
                             }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -272,9 +283,11 @@ public class ParkingInformationFragment extends Fragment {
         }
     }
 
-    private void processPayment(double fees) {
+    private void processPayment(double fees,String lp) {
         amount = String.valueOf(fees);
+        vehicleLicensePlate = lp;
         PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "MYR", "Top Up For E-Wallet", PayPalPayment.PAYMENT_INTENT_SALE);
+
         Intent intent = new Intent(getActivity(), PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
@@ -292,9 +305,11 @@ public class ParkingInformationFragment extends Fragment {
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        startActivity(new Intent(getActivity(), PaymentDetails.class)
+                        Toast.makeText(getActivity(),"Payment Successful!! Please exit within 20 minutes..",Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getActivity(), parkingFeesPaymentDetails.class)
                                 .putExtra("PaymentDetails", paymentDetails)
                                 .putExtra("PaymentAmount", amount)
+                                .putExtra("vehicleLicensePlateNumber",vehicleLicensePlate)
                         );
                     } catch (JSONException e) {
                         e.printStackTrace();
