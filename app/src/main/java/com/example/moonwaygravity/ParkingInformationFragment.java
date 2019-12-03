@@ -160,7 +160,7 @@ public class ParkingInformationFragment extends Fragment {
                         for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                             EntryRecords entryRecords = snapshot.getValue(EntryRecords.class);
-                            if (vh.equals(entryRecords.getVehicleLicensePlateNumber()) && !entryRecords.getStatus().equals("Exited")) {
+                            if (vh.equals(entryRecords.getVehicleLicensePlateNumber()) && !entryRecords.getStatus().equals("Exit")) {
                                 entryRec.add(entryRecords);
                                 //add to entry adapter
 

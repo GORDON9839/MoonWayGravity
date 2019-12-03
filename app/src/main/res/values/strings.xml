@@ -27,4 +27,6 @@
     <string name="enter_plate_number">Enter Plate Number</string>
     <string name="your_vehicle">Your Vehicle :</string>
     <string name="customer_portal">Customer Portal</string>
+    <string name="view_available_parking">View Available Parking</string>
+    <string name="available_parking_slot">Available Parking slot</string>
 </resources>

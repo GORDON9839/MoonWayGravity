@@ -152,12 +152,13 @@ public class PaymentDetails extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    for(DataSnapshot data:dataSnapshot.getChildren()){
-                        if(data.child("customerId").getValue().equals(currentUserid)){
-                            int balance = Integer.parseInt(data.child("accountBalance").getValue().toString());
-                            updateBalance(balance);
+                    txtCustomer.setText(dataSnapshot.child("name").getValue().toString());
+                    int balance = Integer.parseInt(dataSnapshot.child("accountBalance").getValue().toString());
+                    double newBalance = balance + Double.parseDouble(paymentAmount);
+                    Log.d("hi",paymentAmount);
+                    custRef.child("accountBalance").setValue(String.valueOf(newBalance));
 
-                        }
+                }
 
 
 
@@ -173,7 +174,6 @@ public class PaymentDetails extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     private File saveBitMap(Context context, View drawView){
         File pictureFileDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Handcare");
         if (!pictureFileDir.exists()) {
@@ -227,10 +227,6 @@ public class PaymentDetails extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    public void updateBalance(int bal){
-        custRef.child(currentUserid).child("accountBalance").setValue(String.valueOf(bal));
-
     }
 
 
