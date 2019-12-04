@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.moonwaygravity.Adapter.VehicleListAdapter;
+import com.example.moonwaygravity.Model.Customer;
 import com.example.moonwaygravity.Model.Vehicle;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -30,7 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
+import com.google.android.material.button.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +39,15 @@ public class UserProfileFragment extends Fragment {
 
 
     Button btn_topup;
-    TextView balance;
+    MaterialButton btn_addVehicle;
+    TextView balance,nameLabel;
     private RecyclerView vehicleList;
-    private FirebaseAuth mAuth;
-    private DatabaseReference vehRef,custRef;
+    private FirebaseAuth mAuth=FirebaseAuth.getInstance();;
+    private DatabaseReference vehRef, custRef;
     private VehicleListAdapter adapter;
     List<Vehicle> vehicle;
 
+    final String currentUserID = mAuth.getCurrentUser().getUid();
     private OnFragmentInteractionListener mListener;
 
     public UserProfileFragment() {
@@ -62,6 +65,7 @@ public class UserProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -75,9 +79,10 @@ public class UserProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         btn_topup = view.findViewById(R.id.topup);
-        vehicleList =  (RecyclerView)view.findViewById(R.id.vehicleList);
+        vehicleList = (RecyclerView) view.findViewById(R.id.vehicleList);
         balance = view.findViewById(R.id.balance);
-
+        btn_addVehicle = view.findViewById(R.id.addNewVehicle);
+        nameLabel = view.findViewById(R.id.nameLabel);
         btn_topup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,45 +90,43 @@ public class UserProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btn_addVehicle.setOnClickListener(new View.OnClickListener(){
 
-        mAuth = FirebaseAuth.getInstance();
-        final String currentUserID = mAuth.getCurrentUser().getUid();
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddNewVehicle.class);
+                startActivity(intent);
+            }
+        });
+
         custRef = FirebaseDatabase.getInstance().getReference().child("Customer");
         vehRef = FirebaseDatabase.getInstance().getReference().child("Vehicle");
-
-        vehicle(currentUserID);
-        userProfile(currentUserID);
-
-
-
-
+        retrieveVehicle(currentUserID);
+        retrieveUserProfile(currentUserID);
         return view;
     }
-    private void vehicle(final String currentUserID){
+    private void retrieveVehicle(final String currentUserID) {
         vehicleList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         vehicleList.setLayoutManager(linearLayoutManager);
 
-
         vehicle = new ArrayList<>();
 
-        vehRef.addValueEventListener(new ValueEventListener() {
+        vehRef.orderByChild("customerId").equalTo(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 vehicle.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Vehicle v = snapshot.getValue(Vehicle.class);
-                    if(v.getCustomerId().equals(currentUserID)){
-                        vehicle.add(v);
-                    }
-                    adapter = new VehicleListAdapter(getActivity(),vehicle);
-                    vehicleList.setAdapter(adapter);
 
+                        vehicle.add(v);
+
+                    adapter = new VehicleListAdapter(getActivity(), vehicle);
+                    vehicleList.setAdapter(adapter);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -131,27 +134,22 @@ public class UserProfileFragment extends Fragment {
         });
     }
 
-    private void userProfile(final String currentUserID){
-        custRef.addValueEventListener(new ValueEventListener() {
+    private void retrieveUserProfile(final String currentUserID) {
+        custRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String custid = snapshot.child("customerId").getValue().toString();
-                    if(custid.equals(currentUserID)){
-                        Double bal = Double.parseDouble(snapshot.child("accountBalance").getValue().toString());
-                        balance.setText(String.format("RM %.2f",bal));
-                    }
-                }
-            }
+                    Customer customer = dataSnapshot.getValue(Customer.class);
+                        Double bal = Double.parseDouble(customer.getAccountBalance());
+                        nameLabel.setText(customer.getName());
+                        balance.setText(String.format("RM %.2f", bal));
 
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
     }
-
-
 
     @Override
     public void onStop() {
@@ -163,6 +161,7 @@ public class UserProfileFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

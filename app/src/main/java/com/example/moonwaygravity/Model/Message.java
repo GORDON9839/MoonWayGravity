@@ -1,13 +1,23 @@
 package com.example.moonwaygravity.Model;
 
+import java.util.Date;
+
 public class Message {
     private String sender;
     private String receiver;
     private String message;
-    private String category;
-    private String date;
+    private Date date;
+    private String chatroomid;
 
     public Message() {
+    }
+
+    public String getChatroomid() {
+        return chatroomid;
+    }
+
+    public void setChatroomid(String chatroomid) {
+        this.chatroomid = chatroomid;
     }
 
     public String getSender() {
@@ -34,19 +44,12 @@ public class Message {
         this.message = message;
     }
 
-    public String getCategory() {
-        return category;
-    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

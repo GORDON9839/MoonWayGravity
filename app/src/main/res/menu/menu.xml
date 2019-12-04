@@ -5,4 +5,8 @@
         android:title="@string/logout"
         app:showAsAction="never"
         android:icon="@drawable/logout"/>
+    <item android:id="@+id/view_parking"
+        android:title="@string/view_available_parking"
+        app:showAsAction="never"
+        android:icon="@drawable/parking"/>
 </menu>

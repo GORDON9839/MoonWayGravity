@@ -152,13 +152,13 @@ public class PaymentDetails extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        txtCustomer.setText(dataSnapshot.child("name").getValue().toString());
-                        int balance = Integer.parseInt(dataSnapshot.child("accountBalance").getValue().toString());
-                        double newBalance = balance + Double.parseDouble(paymentAmount);
-                        Log.d("hi",paymentAmount);
-                        custRef.child("accountBalance").setValue(newBalance);
+                    txtCustomer.setText(dataSnapshot.child("name").getValue().toString());
+                    int balance = Integer.parseInt(dataSnapshot.child("accountBalance").getValue().toString());
+                    double newBalance = balance + Double.parseDouble(paymentAmount);
+                    Log.d("hi",paymentAmount);
+                    custRef.child("accountBalance").setValue(String.valueOf(newBalance));
 
-                        }
+                }
 
 
 
