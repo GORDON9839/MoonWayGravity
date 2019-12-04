@@ -170,7 +170,6 @@ public class ChatMessaging extends Fragment {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 Message message = snapshot.getValue(Message.class);
                                 messages.add(message);
-
                             }
                             messageAdapter = new MessageAdapter(getActivity(), messages);
                             recyclerView.setAdapter(messageAdapter);

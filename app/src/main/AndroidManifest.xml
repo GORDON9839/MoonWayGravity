@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/customer_launcher"
@@ -19,8 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".parkingFeesPaymentDetails"></activity>
-        <activity android:name=".AddNewVehicle"></activity>
+        <activity android:name=".ViewAvailableParking"></activity>
+        <activity android:name=".parkingFeesPaymentDetails" />
+        <activity android:name=".AddNewVehicle" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CustomerLoginActivity" />
         <activity android:name=".CustomerRegisterActivity" />

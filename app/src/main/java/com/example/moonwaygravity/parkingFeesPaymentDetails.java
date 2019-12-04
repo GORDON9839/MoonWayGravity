@@ -90,7 +90,6 @@ public class parkingFeesPaymentDetails extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     Log.i("TAG", "Oops! Image could not be saved.");
-
                 }
             }
         });

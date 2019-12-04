@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.TextView;
 
 
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     AppCompatImageView logo;
     Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +35,15 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setOverflowIcon((ContextCompat.getDrawable(this, R.drawable.menu)));
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         logo = findViewById(R.id.logo);
         adapter = new createPagerAdapter
-                (this,getSupportFragmentManager());
+                (this, getSupportFragmentManager());
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -52,15 +53,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this,CustomerLoginActivity.class));
+                startActivity(new Intent(MainActivity.this, CustomerLoginActivity.class));
+
+            case R.id.view_parking:
+                Intent intent = new Intent(MainActivity.this,ViewAvailableParking.class);
+                startActivity(intent);
+
                 return true;
         }
         return false;
     }
-
 
 
 }
