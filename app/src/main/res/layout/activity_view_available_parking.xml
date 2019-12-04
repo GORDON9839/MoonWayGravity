@@ -20,36 +20,10 @@
             android:layout_height="wrap_content"
             android:text="@string/available_parking_slot"
             style="?materialButtonOutlinedStyle"/>
-    <TableLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/availble_parking_table"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="1">
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Floor"
-                android:padding="3dp"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Available Parking Slot"
-                android:padding="4dp"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
-        </TableRow>
-        <View android:layout_width="match_parent"
-            android:background="@android:color/background_dark"
-            android:layout_height="2dp" />
-        <TableRow
-            >
-
-        </TableRow>
-    </TableLayout>
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/available_parking_item"/>
     </LinearLayout>
 </RelativeLayout>

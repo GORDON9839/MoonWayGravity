@@ -1,6 +1,7 @@
 package com.example.moonwaygravity.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
     @Override
     public VehicleListAdapter.vehicleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.vehicle_list_layout,parent,false);
+
         return new VehicleListAdapter.vehicleViewHolder(view);
     }
 
@@ -39,6 +41,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
     public void onBindViewHolder(@NonNull VehicleListAdapter.vehicleViewHolder holder, int position) {
         Vehicle veh = vehicle.get(position);
         holder.vehicleLicensePlate.setText(veh.getVehicleLicensePlateNumber());
+
     }
 
     @Override
@@ -48,7 +51,6 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
 
     public class vehicleViewHolder extends RecyclerView.ViewHolder{
         public TextView vehicleLicensePlate;
-
         public vehicleViewHolder(View itemView){
             super(itemView);
             vehicleLicensePlate = itemView.findViewById(R.id.licensePlate);
