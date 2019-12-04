@@ -139,13 +139,13 @@ public class PaymentDetails extends AppCompatActivity {
 
             transRef = FirebaseDatabase.getInstance().getReference();
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("paymentId",response.getString("id"));
+            hashMap.put("transactionTime",sdfTime.format(date));
             hashMap.put("status", response.getString("state"));
-            hashMap.put("message", paymentAmount);
+            hashMap.put("amount", paymentAmount);
             hashMap.put("transactionType", "Reload Credit");
-            hashMap.put("customerId", currentUserid);
+            hashMap.put("transactionDate", sdfDate.format(date));
 
-            transRef.child("Transaction").push().setValue(hashMap);
+            transRef.child("Transaction").child(response.getString("id")).setValue(hashMap);
 
             custRef = FirebaseDatabase.getInstance().getReference().child("Customer").child(currentUserid);
             custRef.addListenerForSingleValueEvent(new ValueEventListener() {
