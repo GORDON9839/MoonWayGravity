@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Intent intent = new Intent(this, PushNotification.class);
+        startService(intent);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setOverflowIcon((ContextCompat.getDrawable(this, R.drawable.menu)));

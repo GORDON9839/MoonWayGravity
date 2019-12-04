@@ -8,6 +8,7 @@ import android.content.Context;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static android.app.Notification.EXTRA_NOTIFICATION_ID;
 
 
 public class PushNotification extends Service {
@@ -56,26 +58,29 @@ public class PushNotification extends Service {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot data:dataSnapshot.getChildren()){
                                 String status = data.child("status").getValue().toString();
-                                String userId = data.child("userId").getValue().toString();
-                                if(userId.equals(user.getUid())&& status.equals("pending")) {
-                                    Intent sintent = new Intent(PushNotification.this, MainActivity.class);
+                                String userId = data.child("customerId").getValue().toString();
+                                String key = data.getKey();
+                                Log.wtf("hi123",user.getUid());
+                                if(userId.equals(user.getUid())&& status.equals("Pending")) {
+                                    Intent yesintent = new Intent(PushNotification.this, MyBroadcastReceiver.class);
+                                    yesintent.putExtra("action","yes");
+                                    yesintent.putExtra("key",key);
+                                    PendingIntent yespendingIntent =
+                                            PendingIntent.getBroadcast(PushNotification.this, 0, yesintent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                                    sintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    PendingIntent pendingIntent =
-                                            PendingIntent.getBroadcast(PushNotification.this, 0, sintent, 0);
 
                                     Uri defSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                                     NotificationCompat.Builder builder = new NotificationCompat.Builder(PushNotification.this)
                                             .setSmallIcon(R.drawable.logo)
                                             .setContentText("My Notification")
-                                            .setContentTitle("Your car has been drove by someone")
+                                            .setContentTitle("Your car is detected has been drove by someone. Do you want to report")
                                             .setAutoCancel(true)
                                             .setSound(defSoundUri)
-                                            .setContentIntent(pendingIntent)
-                                            .addAction(R.drawable.yes, "Yes, I am", pendingIntent)
-                                            .addAction(R.drawable.no, "no", pendingIntent);
+                                            .setContentIntent(yespendingIntent)
+                                            .addAction(R.drawable.yes, "Yes", yespendingIntent)
+                                            .addAction(R.drawable.no, "No", yespendingIntent);
                                     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                    notificationManager.notify(0 /* ID of notification */, builder.build());
+                                    notificationManager.notify(2 /* ID of notification */, builder.build());
 
 
                                 }
