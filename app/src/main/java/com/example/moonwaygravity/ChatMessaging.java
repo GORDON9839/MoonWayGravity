@@ -1,6 +1,7 @@
 package com.example.moonwaygravity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.moonwaygravity.Adapter.MessageAdapter;
@@ -78,17 +80,7 @@ public class ChatMessaging extends Fragment {
                              Bundle savedInstanceState) {
         //initialization
         View view = inflater.inflate(R.layout.fragment_chat_messaging, container, false);
-        res = view.getResources();
-        recyclerView = view.findViewById(R.id.recycle_view);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        btn_send = view.findViewById(R.id.btn_send);
-        text_send = view.findViewById(R.id.text_send);
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        retrieveActiveChatrooms(firebaseUser.getUid()); // read all the acive chatroom base on the customer
+        init(view);
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,9 +109,31 @@ public class ChatMessaging extends Fragment {
                 }
             }
         });
+        btn_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                phoneIntent.setData(Uri.parse("tel:0179641099"));
+                showToast(R.drawable.call_20,"Calling Moonway Gravity Customer Support...");
+                startActivity(phoneIntent);
+            }
+        });
         return view;
     }
+    private void init(View view){
+        res = view.getResources();
+        btn_call = view.findViewById(R.id.callButton);
+        recyclerView = view.findViewById(R.id.recycle_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
+        btn_send = view.findViewById(R.id.btn_send);
+        text_send = view.findViewById(R.id.text_send);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        retrieveActiveChatrooms(firebaseUser.getUid()); // read all the acive chatroom base on the customer
+    }
     // for retrieve message
     private void retrieveActiveChatrooms(String uid) {
         DatabaseReference chatroomRef = database.getReference("Chatroom");
@@ -155,6 +169,14 @@ public class ChatMessaging extends Fragment {
 
             }
         });
+    }
+    private void showToast(int pngpath, String text) {
+        Toast toast = new Toast(getActivity());
+        TextView textView = new TextView(getActivity());
+        textView.setText(text);
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, pngpath, 0, 0);
+        toast.setView(textView);
+        toast.show();
     }
     private void readActiveMessage() {
 
@@ -209,7 +231,9 @@ public class ChatMessaging extends Fragment {
         msg.setMessage(message);
         messageRef.push().setValue(msg);
     }
-    // TODO: Rename method, update argument and hook method into UI event
+   private void callCustomerSupport(View v){
+
+   }
     public void onStop() {
         super.onStop();
     }
