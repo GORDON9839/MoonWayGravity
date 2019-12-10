@@ -40,9 +40,10 @@ public class UserProfileFragment extends Fragment {
 
     Button btn_topup;
     MaterialButton btn_addVehicle;
-    TextView balance,nameLabel;
+    TextView balance,nameLabel,txtAnnoucmentDropdown,txtAnnoucmentContent;
     private RecyclerView vehicleList;
-    private FirebaseAuth mAuth=FirebaseAuth.getInstance();;
+    private FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    private FirebaseDatabase database;
     private DatabaseReference vehRef, custRef;
     private VehicleListAdapter adapter;
     List<Vehicle> vehicle;
@@ -78,11 +79,7 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-        btn_topup = view.findViewById(R.id.topup);
-        vehicleList = (RecyclerView) view.findViewById(R.id.vehicleList);
-        balance = view.findViewById(R.id.balance);
-        btn_addVehicle = view.findViewById(R.id.addNewVehicle);
-        nameLabel = view.findViewById(R.id.nameLabel);
+        init(view);
         btn_topup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,12 +95,61 @@ public class UserProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        txtAnnoucmentDropdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(txtAnnoucmentContent.getVisibility()== View.GONE){
+                    txtAnnoucmentContent.setVisibility(View.VISIBLE);
+                    Fx.slide_down(getActivity(),txtAnnoucmentContent);
+                    txtAnnoucmentDropdown.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.up_30,0);
+                }else{
+                    Fx.slide_up(getActivity(),txtAnnoucmentContent);
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    txtAnnoucmentContent.setVisibility(View.GONE);
+                                    txtAnnoucmentDropdown.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.down_30,0);
+                                }
+                            },
+                            600);
 
+                }
+            }
+        });
         custRef = FirebaseDatabase.getInstance().getReference().child("Customer");
         vehRef = FirebaseDatabase.getInstance().getReference().child("Vehicle");
         retrieveVehicle(currentUserID);
         retrieveUserProfile(currentUserID);
         return view;
+    }
+    private void init(View view){
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference annoucmentRef = database.getReference("Announcement");
+
+        btn_topup = view.findViewById(R.id.topup);
+        vehicleList = (RecyclerView) view.findViewById(R.id.vehicleList);
+        balance = view.findViewById(R.id.balance);
+        btn_addVehicle = view.findViewById(R.id.addNewVehicle);
+        nameLabel = view.findViewById(R.id.nameLabel);
+        txtAnnoucmentDropdown = view.findViewById(R.id.annoucemnetButton);
+        txtAnnoucmentContent = view.findViewById(R.id.annoucmentContent);
+
+        //Retrieve Announcement and initialize
+        annoucmentRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String announcemntMessage="";
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    announcemntMessage += snapshot.child("message").getValue();
+                }
+                txtAnnoucmentContent.setText(announcemntMessage);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
     private void retrieveVehicle(final String currentUserID) {
         vehicleList.setHasFixedSize(true);

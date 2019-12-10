@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
@@ -21,7 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ViewAvailableParking"></activity>
+        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".ManageProfile" />
+        <activity android:name=".ViewAvailableParking" />
         <activity android:name=".parkingFeesPaymentDetails" />
         <activity android:name=".AddNewVehicle" />
         <activity android:name=".MainActivity" />

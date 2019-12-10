@@ -14,65 +14,90 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:background="@color/color_primary"
+            android:background="@color/grey"
+            android:minHeight="30px"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/profile_image"
                 android:src="@drawable/support" />
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/username"
-                android:textSize="18sp"
-                android:layout_marginLeft="25dp"
-                android:textColor="#fff"
-                android:textStyle="bold"
                 android:layout_marginStart="25dp"
-                android:text="Customer Support"/>
+                android:layout_marginLeft="25dp"
+                android:text="Customer Support"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/callButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20px"
+                    android:backgroundTint="@color/transparent"
+
+                    android:src="@drawable/emergency_call_30" />
+            </RelativeLayout>
 
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
+    <TextView
+        android:id="@+id/noChatroomLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous chat has ended"
+        android:layout_below="@+id/bar_layout"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycle_view"
-        android:layout_below="@id/bar_layout"
-        android:layout_above="@+id/bottom"/>
+        android:layout_above="@+id/bottom"
+        android:layout_below="@id/noChatroomLabel" />
 
     <RelativeLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:layout_alignParentBottom="true"
         android:background="#fff"
-        android:layout_alignParentBottom="true">
+        android:padding="5dp">
 
         <EditText
+            android:id="@+id/text_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/text_send"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_send"
             android:background="@android:color/transparent"
-            android:hint="Write your issue here ..."
-            android:layout_centerVertical="true"/>
+            android:backgroundTint="@color/transparent"
+            android:hint="Write your issue here ..." />
 
         <ImageButton
+            android:id="@+id/btn_send"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/btn_send"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_action_name"/>
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_action_name" />
 
     </RelativeLayout>
 

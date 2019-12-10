@@ -9,4 +9,8 @@
         android:title="@string/view_available_parking"
         app:showAsAction="never"
         android:icon="@drawable/parking"/>
+    <item android:id="@+id/user_profile"
+        android:title="@string/user_profile"
+        app:showAsAction="never"
+        android:icon="@drawable/profile"/>
 </menu>

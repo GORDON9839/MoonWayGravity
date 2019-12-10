@@ -31,4 +31,6 @@
     <string name="available_parking_slot">Available Parking slot</string>
     <string name="floor">Floor</string>
     <string name="slot_vertical">SlotVertical</string>
+    <string name="annoucement">Annoucement </string>
+    <string name="user_profile1">Your Profile</string>
 </resources>

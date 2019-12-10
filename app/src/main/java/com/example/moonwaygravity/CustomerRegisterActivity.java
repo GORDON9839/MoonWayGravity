@@ -73,8 +73,6 @@ public class CustomerRegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_register);
-
-
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         contact = findViewById(R.id.contact);
@@ -82,18 +80,14 @@ public class CustomerRegisterActivity extends AppCompatActivity {
         confirm_password = findViewById(R.id.confirmPassword);
         btn_register = findViewById(R.id.submit);
         btn_cancel = findViewById(R.id.cancel);
-
         auth = FirebaseAuth.getInstance();
         dialog = new ProgressDialog(CustomerRegisterActivity.this,ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
         dialog.setTitle("Creating Account");
         dialog.setMessage("Please wait...");
-
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.show();
-
-
                 String txt_name = name.getText().toString();
                 String txt_email = email.getText().toString();
                 String txt_contact = contact.getText().toString();
@@ -117,10 +111,7 @@ public class CustomerRegisterActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
                 else
-                {
-                    register(txt_name,txt_email,txt_contact,txt_password);
-
-                }
+                { register(txt_name,txt_email,txt_contact,txt_password); }
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
