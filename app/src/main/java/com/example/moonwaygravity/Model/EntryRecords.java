@@ -2,6 +2,31 @@ package com.example.moonwaygravity.Model;
 
 public class EntryRecords {
     public String authorizeDriverImage,date,licensePlateImage,status,time,vehicleLicensePlateNumber,parkingSlotNumber;
+    public String carflowLocation, parkedTime, parkedDate;
+
+    public String getCarflowLocation() {
+        return carflowLocation;
+    }
+
+    public void setCarflowLocation(String carflowLocation) {
+        this.carflowLocation = carflowLocation;
+    }
+
+    public String getParkedTime() {
+        return parkedTime;
+    }
+
+    public void setParkedTime(String parkedTime) {
+        this.parkedTime = parkedTime;
+    }
+
+    public String getParkedDate() {
+        return parkedDate;
+    }
+
+    public void setParkedDate(String parkedDate) {
+        this.parkedDate = parkedDate;
+    }
 
     public EntryRecords() {
     }

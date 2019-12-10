@@ -51,8 +51,9 @@ public class EntryRecordListAdapter extends RecyclerView.Adapter<EntryRecordList
 
     public onBindCallBack onBind;
 
-    private DatabaseReference parkingLotRef;
+    private DatabaseReference parkingLotRef, slotRef,floorRef;
     double fees;
+    String parked_slot, floorName;
 
     FirebaseUser firebaseUser;
 
@@ -75,6 +76,38 @@ public class EntryRecordListAdapter extends RecyclerView.Adapter<EntryRecordList
         EntryRecords ent = entryRecords.get(position);
         holder.licensePlate.setText(ent.getVehicleLicensePlateNumber());
         holder.parkingLocation.setText(ent.getParkingSlotNumber());
+
+        if(ent.getParkingSlotNumber() != ""){
+            slotRef = FirebaseDatabase.getInstance().getReference().child("ParkingSlot").child(ent.getParkingSlotNumber());
+            slotRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    parked_slot = dataSnapshot.child("name").getValue().toString();
+                    holder.parkingLocation.setText(parked_slot + "   " + ent.getParkedDate() + "  " + ent.getParkedTime());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+        floorRef = FirebaseDatabase.getInstance().getReference().child("Floors").child(ent.getCarflowLocation());
+        floorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                floorName = dataSnapshot.child("floorName").getValue().toString().toUpperCase();
+                holder.flowLocation.setText(floorName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         holder.entryDate.setText(ent.getDate());
         holder.entrytime.setText(ent.getTime());
         calculateFees(ent.getDate(),ent.getTime(),holder);
@@ -91,7 +124,7 @@ public class EntryRecordListAdapter extends RecyclerView.Adapter<EntryRecordList
     }
 
     public class entryViewHolder extends RecyclerView.ViewHolder{
-        public TextView licensePlate,parkingLocation,entryDate,entrytime,parkingFee;
+        public TextView licensePlate,parkingLocation,entryDate,entrytime,parkingFee,flowLocation;
         public Button payParking;
 
         public entryViewHolder(View itemView){
@@ -102,6 +135,7 @@ public class EntryRecordListAdapter extends RecyclerView.Adapter<EntryRecordList
             entrytime = itemView.findViewById(R.id.entryTime);
             parkingFee = itemView.findViewById(R.id.parkingfee);
             payParking = itemView.findViewById(R.id.payParkingFee);
+            flowLocation = itemView.findViewById(R.id.flowLocation);
         }
     }
     public interface onBindCallBack{
