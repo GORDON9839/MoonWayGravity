@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ChatMessaging extends Fragment {
@@ -52,7 +54,7 @@ public class ChatMessaging extends Fragment {
     EditText text_send;
     MessageAdapter messageAdapter;
     List<Message> messages;
-
+TextView noChatroomLabel;
     RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -118,11 +120,13 @@ public class ChatMessaging extends Fragment {
                 startActivity(phoneIntent);
             }
         });
+
         return view;
     }
     private void init(View view){
         res = view.getResources();
         btn_call = view.findViewById(R.id.callButton);
+        noChatroomLabel = view.findViewById(R.id.noChatroomLabel);
         recyclerView = view.findViewById(R.id.recycle_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -185,6 +189,8 @@ public class ChatMessaging extends Fragment {
         if (chatrooms.size() != 0) {
             for (Chatroom croom : chatrooms) {
                 if (croom.getStatus().equals(res.getString(R.string.activeState))) {
+                    noChatroomLabel.setVisibility(View.GONE);
+                    showToast(0,"hi");
                     messageRef.orderByChild("chatroomid").equalTo(croom.getId()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -202,6 +208,8 @@ public class ChatMessaging extends Fragment {
                         }
                     });
                     break;
+                }else{
+                    noChatroomLabel.setVisibility(View.VISIBLE);
                 }
             }
         }

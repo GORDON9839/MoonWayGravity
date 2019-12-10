@@ -57,13 +57,21 @@
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
+    <TextView
+        android:id="@+id/noChatroomLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous chat has ended"
+        android:layout_below="@+id/bar_layout"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom"
-        android:layout_below="@id/bar_layout" />
+        android:layout_below="@id/noChatroomLabel" />
 
     <RelativeLayout
         android:id="@+id/bottom"

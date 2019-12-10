@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ViewAvailableParking"></activity>
+        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".ManageProfile" />
+        <activity android:name=".ViewAvailableParking" />
         <activity android:name=".parkingFeesPaymentDetails" />
         <activity android:name=".AddNewVehicle" />
         <activity android:name=".MainActivity" />

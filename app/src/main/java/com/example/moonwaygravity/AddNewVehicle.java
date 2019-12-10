@@ -50,7 +50,7 @@ public class AddNewVehicle extends AppCompatActivity {
         final EditText vehicleLicensePlate = (EditText) findViewById(R.id.newVehiclePlate);
         final EditText owner = (EditText) findViewById(R.id.newOwner);
         Button btn_AddVehicle = (Button) findViewById(R.id.addVehicle_button);
-        Log.d("hmmm", firebaseUser.getUid());
+
         //get owner
         final DatabaseReference customerRef = database.getReference("Customer");
         customerRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {

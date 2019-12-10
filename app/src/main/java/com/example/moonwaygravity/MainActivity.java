@@ -59,8 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CustomerLoginActivity.class));
 
             case R.id.view_parking:
-                Intent intent = new Intent(MainActivity.this,ViewAvailableParking.class);
+                Intent intent = new Intent(MainActivity.this, ViewAvailableParking.class);
                 startActivity(intent);
+                return true;
+
+            case R.id.user_profile:
+                Intent intentProfile = new Intent(MainActivity.this, ManageProfile.class);
+                startActivity(intentProfile);
 
                 return true;
         }
