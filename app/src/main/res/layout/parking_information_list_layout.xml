@@ -32,13 +32,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Parking Location"
+                android:text="Parking Information"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"/>
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="#000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flow Location"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,6 +114,20 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="#000000" />
+
+            <TextView
+                android:id="@+id/flowLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking Location"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="?textAppearanceBody2"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
             <TextView
                 android:id="@+id/entrydate"
                 android:layout_width="wrap_content"
