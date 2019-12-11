@@ -144,6 +144,7 @@ public class PaymentDetails extends AppCompatActivity {
             hashMap.put("amount", paymentAmount);
             hashMap.put("transactionType", "Reload Credit");
             hashMap.put("transactionDate", sdfDate.format(date));
+            hashMap.put("customerId",currentUserid);
 
             transRef.child("Transaction").child(response.getString("id")).setValue(hashMap);
 

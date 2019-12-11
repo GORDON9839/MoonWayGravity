@@ -59,12 +59,13 @@ public class PushNotification extends Service {
                             for(DataSnapshot data:dataSnapshot.getChildren()){
                                 String status = data.child("status").getValue().toString();
                                 String userId = data.child("customerId").getValue().toString();
+                                String entryId = data.child("entryId").getValue().toString();
                                 String key = data.getKey();
-                                Log.wtf("hi123",user.getUid());
                                 if(userId.equals(user.getUid())&& status.equals("Pending")) {
                                     Intent yesintent = new Intent(PushNotification.this, MyBroadcastReceiver.class);
                                     yesintent.putExtra("action","yes");
                                     yesintent.putExtra("key",key);
+                                    yesintent.putExtra("entryKey",entryId);
                                     PendingIntent yespendingIntent =
                                             PendingIntent.getBroadcast(PushNotification.this, 0, yesintent, PendingIntent.FLAG_UPDATE_CURRENT);
 
