@@ -58,19 +58,19 @@ public class ViewAvailableParking extends AppCompatActivity {
         retrieveBlocks();
     }
     private void retrieveBlocks(){
-        Log.d("hmmm","retrieving");
+
         blocks=new ArrayList<Block>();
         DatabaseReference blocksRef = database.getReference("Blocks");
         blocksRef.orderByChild("parkingLotid").equalTo(parkingLotid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    Log.d("hmmm","got");
+
                     Block block = snapshot.getValue(Block.class);
                     block.setId(snapshot.getKey());
                     blocks.add(block);
                 }
-                Log.d("hmmm",blocks.size()+"");
+
                 availableParkingAdapter = new AvailableParkingAdapter(ViewAvailableParking.this, blocks);
                 TableRecycleView.setAdapter(availableParkingAdapter);
             }

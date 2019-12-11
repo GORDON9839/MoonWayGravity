@@ -59,12 +59,9 @@ public class CustomerLoginActivity extends AppCompatActivity {
         password = findViewById(R.id.passwordhint);
         btn_login = findViewById(R.id.login);
         btn_signup = findViewById(R.id.signup);
-
         dialog = new ProgressDialog(CustomerLoginActivity.this,ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
         dialog.setTitle("Logging In");
         dialog.setMessage("Please wait...");
-
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,9 +91,6 @@ public class CustomerLoginActivity extends AppCompatActivity {
                                                             Intent intent = new Intent(CustomerLoginActivity.this, MainActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                             startActivity(intent);
-
-                                                        }else{
-                                                            Toast.makeText(CustomerLoginActivity.this, "You are not a customer.... ", Toast.LENGTH_LONG).show();
                                                         }
                                                     }
                                                 }

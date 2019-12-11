@@ -88,10 +88,15 @@ public class AvailableParkingAdapter extends RecyclerView.Adapter<AvailableParki
                     compRef.orderByChild("floorid").equalTo(floor.getId()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            int count =0;
                             for (DataSnapshot csnap : dataSnapshot.getChildren()) {
+
                                 Component component = csnap.getValue(Component.class);
-                                component.setId(csnap.getKey().toString());
-                                if (component.getName().toLowerCase().equals("slotvertical") || component.getName().toLowerCase().equals("slothorizontal")) {
+                                component.setId(csnap.getKey());
+
+                                if (component.getName().toLowerCase().equals("slotvertical") || component.getName().toLowerCase().equals("slothorinzontal")) {
+                                    count++;
+
                                     components.add(component);
                                     parkingSlotRef.orderByChild("compid").equalTo(component.getId()).addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -116,6 +121,7 @@ public class AvailableParkingAdapter extends RecyclerView.Adapter<AvailableParki
 
                                 }
                             }
+
                         }
 
                         @Override
@@ -135,7 +141,7 @@ public class AvailableParkingAdapter extends RecyclerView.Adapter<AvailableParki
                         initTable(holder, position);
                     }
                 },
-                2000);
+                3000);
     }
 
     @Override
@@ -144,6 +150,7 @@ public class AvailableParkingAdapter extends RecyclerView.Adapter<AvailableParki
     }
 
     private void initTable(AvailableParkingAdapter.ViewHolder holder, int position) {
+
         if (floors.size() > 0 && components.size() > 0 && parkingSlots.size() > 0) {
             for (Floor f : floors) {
                 parkingSlotSum = 0;
@@ -158,7 +165,7 @@ public class AvailableParkingAdapter extends RecyclerView.Adapter<AvailableParki
                 }
                 floorNo = new TextView(context);
                 availableParkingSlot = new TextView(context);
-                floorNo.setText(f.getFloorName());
+                floorNo.setText(f.getFloorName().toUpperCase());
                 floorNo.setTextSize(20);
                 floorNo.setGravity(Gravity.CENTER);
                 availableParkingSlot.setText(String.valueOf(parkingSlotSum));

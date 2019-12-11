@@ -77,13 +77,16 @@ public class EntryRecordListAdapter extends RecyclerView.Adapter<EntryRecordList
         holder.licensePlate.setText(ent.getVehicleLicensePlateNumber());
         holder.parkingLocation.setText(ent.getParkingSlotNumber());
 
-        if(ent.getParkingSlotNumber() != ""){
+        if(ent.getParkingSlotNumber() != "" && ent.getParkingSlotNumber()!= null){
             slotRef = FirebaseDatabase.getInstance().getReference().child("ParkingSlot").child(ent.getParkingSlotNumber());
             slotRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    parked_slot = dataSnapshot.child("name").getValue().toString();
-                    holder.parkingLocation.setText(parked_slot + "   " + ent.getParkedDate() + "  " + ent.getParkedTime());
+                    if(dataSnapshot.hasChild("name")){
+                        parked_slot = dataSnapshot.child("name").getValue().toString();
+                        holder.parkingLocation.setText(parked_slot + "   " + ent.getParkedDate() + "  " + ent.getParkedTime());
+                    }
+            
                 }
 
                 @Override
